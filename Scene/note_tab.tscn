@@ -1,0 +1,59 @@
+[gd_scene format=3 uid="uid://b5w72imbsw6ik"]
+
+[ext_resource type="Texture2D" uid="uid://dqut0koqm1630" path="res://Assets/Notes/Background_2.png" id="1_lotcn"]
+[ext_resource type="FontFile" uid="uid://bfhb5rqf4dn3w" path="res://Assets/Notes/Handmade.otf" id="2_pjxwu"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ldxh0"]
+texture = ExtResource("1_lotcn")
+texture_margin_left = 2.0
+texture_margin_top = 2.0
+texture_margin_right = 2.0
+texture_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_cenux"]
+texture = ExtResource("1_lotcn")
+texture_margin_left = 2.0
+texture_margin_top = 2.0
+texture_margin_right = 2.0
+texture_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_pjxwu"]
+texture = ExtResource("1_lotcn")
+texture_margin_left = 2.0
+texture_margin_top = 2.0
+texture_margin_right = 2.0
+texture_margin_bottom = 2.0
+
+[node name="Note_tab" type="VBoxContainer" unique_id=1834246033]
+custom_minimum_size = Vector2(100, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Upper_Tab" type="HBoxContainer" parent="." unique_id=1508105786]
+layout_mode = 2
+
+[node name="FileName" type="Label" parent="Upper_Tab" unique_id=1181640593]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_styles/normal = SubResource("StyleBoxTexture_ldxh0")
+text = "No note open"
+
+[node name="Close_editor" type="Button" parent="Upper_Tab" unique_id=347367573]
+custom_minimum_size = Vector2(30, 30)
+custom_maximum_size = Vector2(30, 30)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxTexture_cenux")
+text = "x"
+
+[node name="Editor" type="TextEdit" parent="." unique_id=1029287692]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("2_pjxwu")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxTexture_pjxwu")
+wrap_mode = 1

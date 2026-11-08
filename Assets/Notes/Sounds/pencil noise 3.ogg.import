@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://cdhtymqam7lbx"
+path="res://.godot/imported/pencil noise 3.ogg-f76c766c22c964964a06d7e3bdedc743.oggvorbisstr"
+
+[deps]
+
+source_file="res://Assets/Notes/Sounds/pencil noise 3.ogg"
+dest_files=["res://.godot/imported/pencil noise 3.ogg-f76c766c22c964964a06d7e3bdedc743.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

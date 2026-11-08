@@ -1,0 +1,151 @@
+[gd_scene format=3 uid="uid://bk5bfcu4rfyww"]
+
+[ext_resource type="Script" uid="uid://ce1tuq62ibvme" path="res://Scripts/menu.gd" id="1_dvvdh"]
+[ext_resource type="Texture2D" uid="uid://breqy03c3pa30" path="res://Assets/Notes/Background.png" id="2_ldxh0"]
+[ext_resource type="Texture2D" uid="uid://dqut0koqm1630" path="res://Assets/Notes/Background_2.png" id="3_ldxh0"]
+[ext_resource type="AudioStream" uid="uid://qmlvxk23nsdg" path="res://Assets/Notes/Sounds/Pencil noise.ogg" id="4_cenux"]
+[ext_resource type="Texture2D" uid="uid://c24wdewmp0gbl" path="res://Assets/Notes/Volume.png" id="4_r7rek"]
+[ext_resource type="AudioStream" uid="uid://7441iuhkmy7b" path="res://Assets/Notes/Sounds/pencil noise 2.ogg" id="5_5g6b6"]
+[ext_resource type="AudioStream" uid="uid://cdhtymqam7lbx" path="res://Assets/Notes/Sounds/pencil noise 3.ogg" id="6_r7rek"]
+[ext_resource type="AudioStream" uid="uid://kx7k7twn7vd4" path="res://Assets/Notes/Sounds/pencil noise 4.ogg" id="7_5csvr"]
+[ext_resource type="AudioStream" uid="uid://dwifuci05v72h" path="res://Assets/Notes/Sounds/pencil noise 5.wav" id="8_evu12"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ldxh0"]
+texture = ExtResource("2_ldxh0")
+texture_margin_left = 24.0
+texture_margin_top = 24.0
+texture_margin_right = 24.0
+texture_margin_bottom = 24.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_r7rek"]
+texture = ExtResource("3_ldxh0")
+texture_margin_left = 2.0
+texture_margin_top = 2.0
+texture_margin_right = 2.0
+texture_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_d64n0"]
+texture = ExtResource("3_ldxh0")
+texture_margin_left = 2.0
+texture_margin_top = 2.0
+texture_margin_right = 2.0
+texture_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5g6b6"]
+texture = ExtResource("3_ldxh0")
+texture_margin_left = 2.0
+texture_margin_top = 2.0
+texture_margin_right = 2.0
+texture_margin_bottom = 2.0
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_pjxwu"]
+playback_mode = 1
+streams_count = 5
+stream_0/stream = ExtResource("4_cenux")
+stream_1/stream = ExtResource("5_5g6b6")
+stream_2/stream = ExtResource("6_r7rek")
+stream_3/stream = ExtResource("7_5csvr")
+stream_4/stream = ExtResource("8_evu12")
+
+[node name="CanvasLayer" type="CanvasLayer" unique_id=936872214]
+
+[node name="Menu" type="Control" parent="." unique_id=184521101]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_dvvdh")
+
+[node name="Background" type="Panel" parent="Menu" unique_id=2003958319]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_ldxh0")
+
+[node name="bars" type="VBoxContainer" parent="Menu" unique_id=2088046237]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.006
+anchor_top = 0.008
+anchor_right = 0.994
+anchor_bottom = 0.99200004
+offset_left = 19.6
+offset_top = 20.2
+offset_right = -19.600037
+offset_bottom = -20.200012
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Upper_tabtainer" type="HBoxContainer" parent="Menu/bars" unique_id=744730167]
+layout_mode = 2
+
+[node name="New_note" type="Button" parent="Menu/bars/Upper_tabtainer" unique_id=1561056535]
+custom_minimum_size = Vector2(50, 50)
+custom_maximum_size = Vector2(50, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 52
+theme_override_styles/normal = SubResource("StyleBoxTexture_r7rek")
+text = "+"
+
+[node name="Volume_PNG" type="Sprite2D" parent="Menu/bars/Upper_tabtainer" unique_id=1510466789]
+position = Vector2(79, 24)
+texture = ExtResource("4_r7rek")
+
+[node name="Volume" type="HSlider" parent="Menu/bars/Upper_tabtainer/Volume_PNG" unique_id=700341385]
+offset_left = 25.0
+offset_top = -8.0
+offset_right = 136.0
+offset_bottom = 8.0
+min_value = -20.0
+max_value = 5.0
+
+[node name="HSplitContainer" type="HSplitContainer" parent="Menu/bars" unique_id=837580298]
+layout_mode = 2
+size_flags_vertical = 3
+split_offsets = PackedInt32Array(220)
+split_offset = 220
+
+[node name="Sidebar" type="VBoxContainer" parent="Menu/bars/HSplitContainer" unique_id=33779725]
+custom_minimum_size = Vector2(150, 0)
+custom_maximum_size = Vector2(300, -1)
+layout_mode = 2
+
+[node name="OpenUniverseButton" type="Button" parent="Menu/bars/HSplitContainer/Sidebar" unique_id=1929288618]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxTexture_d64n0")
+text = "Open universe"
+
+[node name="FileTree" type="Tree" parent="Menu/bars/HSplitContainer/Sidebar" unique_id=1266312218]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxTexture_5g6b6")
+hide_root = true
+
+[node name="NoteArea" type="HSplitContainer" parent="Menu/bars/HSplitContainer" unique_id=922136948]
+layout_mode = 2
+
+[node name="FileDialog" type="FileDialog" parent="Menu" unique_id=362338076]
+oversampling_override = 1.0
+title = "Open a Directory"
+file_mode = 2
+access = 2
+
+[node name="Editor_Limit" type="AcceptDialog" parent="Menu" unique_id=1612130006]
+oversampling_override = 1.0
+title = "Limit reached"
+
+[node name="Writenoise" type="AudioStreamPlayer" parent="Menu" unique_id=842465500]
+stream = SubResource("AudioStreamRandomizer_pjxwu")
+volume_db = 10.0
+max_polyphony = 4
+
+[connection signal="pressed" from="Menu/bars/Upper_tabtainer/New_note" to="Menu" method="_create_editor"]
+[connection signal="value_changed" from="Menu/bars/Upper_tabtainer/Volume_PNG/Volume" to="Menu" method="_on_volume_value_changed"]
+[connection signal="pressed" from="Menu/bars/HSplitContainer/Sidebar/OpenUniverseButton" to="Menu" method="_on_open_universe_button_pressed"]
+[connection signal="item_selected" from="Menu/bars/HSplitContainer/Sidebar/FileTree" to="Menu" method="_on_file_tree_item_selected"]
+[connection signal="dir_selected" from="Menu/FileDialog" to="Menu" method="_on_file_dialog_dir_selected"]
