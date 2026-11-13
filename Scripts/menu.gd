@@ -16,6 +16,9 @@ const NOTE_TAB: PackedScene = preload("res://Scene/note_tab.tscn")
 @onready var note_area: HSplitContainer = $bars/HSplitContainer/NoteArea
 @onready var editor_limit: AcceptDialog = $Editor_Limit
 @onready var writenoise: AudioStreamPlayer = $Writenoise
+@onready var file_menu: PopupMenu = $FileMenu
+@onready var name_dialog: ConfirmationDialog = $NameDialog
+@onready var name_input: LineEdit = $NameDialog/NameInput
 
 # The path of the universe (folder) chosen
 var universe_path: String = ""
@@ -25,9 +28,15 @@ var current_note: String = ""
 var note: TextEdit
 # Array of textedits in the note_tabs
 var editors: Array[TextEdit] = []
+# Where a new file/folder is made
+var create_dir: String = ""
+# if true then folder, false = a note/file
+var creating_folder: bool = false
 
 func _ready() -> void:
+	name_dialog.register_text_enter(name_input)
 	note = _create_editor() # open a note and focus it
+	
 
 func _create_editor() -> TextEdit:
 	if editors.size() >= MAX_EDITORS:
@@ -35,7 +44,7 @@ func _create_editor() -> TextEdit:
 		editor_limit.popup_centered()
 		return null
 	var tab: Control = NOTE_TAB.instantiate()
-	var editor: TextEdit = tab.get_node("Editor") # find the TextEdit inside it
+	var editor: TextEdit = tab.get_node("Panel/Border/Editor") # find the TextEdit inside it
 	
 	# settings
 	tab.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -204,4 +213,81 @@ func _populate_tree(parent: TreeItem, dir_path: String, depth: int) -> void:
 
 
 func _on_volume_value_changed(value: float) -> void:
-	writenoise.volume_db = value
+	if value <= -20:
+		writenoise.volume_db = -100
+	else:
+		writenoise.volume_db = value
+
+func _on_file_menu_id_pressed(id: int) -> void:
+	if (id == 1): # if folder
+		creating_folder = true
+		name_dialog.title = "New folder"
+	elif (id == 0): # if note
+		creating_folder = false
+		name_dialog.title = "New note"
+	name_input.text = ""
+	name_dialog.popup_centered(Vector2i(320, 110))
+	name_input.grab_focus()
+
+
+func _on_file_tree_item_mouse_selected(mouse_position: Vector2, mouse_button_index: int) -> void:
+	if mouse_button_index != MOUSE_BUTTON_RIGHT:
+		return
+	
+	# stop if nothing selected
+	var item: TreeItem = file_tree.get_selected() 
+	if item == null:
+		return
+	
+	# decide which folder the new thing goes in
+	var data = item.get_metadata(0)
+	if data == null: # root folder
+		create_dir = universe_path 
+	elif data["is_folder"]: # inside this folder
+		create_dir = data["path"]
+	else:
+		return
+	
+	_show_file_menu()
+
+func _show_file_menu():
+	if universe_path == "":
+		return # don't allow creation in blank path
+	
+	var mouse: Vector2i = Vector2i(get_viewport().get_mouse_position())
+	file_menu.popup_on_parent(Rect2i(mouse, Vector2i.ZERO)) # open at the mouse position
+
+func _on_file_tree_empty_clicked(click_position: Vector2, mouse_button_index: int) -> void:
+	if mouse_button_index != MOUSE_BUTTON_RIGHT:
+		return
+	create_dir = universe_path
+	_show_file_menu()
+
+func _on_name_dialog_confirmed() -> void:
+	var valid_name: String = name_input.text.strip_edges().validate_filename()
+	if valid_name == "":
+		return # no name
+	
+	if creating_folder:
+		var folder_path: String = create_dir.path_join(valid_name)
+		if DirAccess.dir_exists_absolute(folder_path):
+			print("Folder already exists: " + folder_path)
+		if DirAccess.make_dir_absolute(folder_path) != OK:
+			print("Failed to create folder: " + folder_path)
+			return
+	
+	else:
+		# default to .md
+		if valid_name.get_extension().to_lower() not in NOTE_EXTENSIONS:
+			valid_name += ".md"
+		var note_path: String = create_dir.path_join(valid_name)
+		if FileAccess.file_exists(note_path):
+			print("note already exists: " + note_path)
+			return # opening for write would empty an existing note, so don't.
+		var file: FileAccess = FileAccess.open(note_path, FileAccess.WRITE)
+		if file == null:
+			print("failed to create note: " + note_path)
+			return
+		file.close() # opening for writing already created the empty file
+	
+	_refresh_tree() # rebuild the sidebar so the new item shows up

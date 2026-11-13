@@ -24,6 +24,8 @@ texture_margin_top = 2.0
 texture_margin_right = 2.0
 texture_margin_bottom = 2.0
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_g4v7s"]
+
 [node name="Note_tab" type="VBoxContainer" unique_id=1834246033]
 custom_minimum_size = Vector2(100, 0)
 anchors_preset = 15
@@ -50,10 +52,23 @@ theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxTexture_cenux")
 text = "x"
 
-[node name="Editor" type="TextEdit" parent="." unique_id=1029287692]
+[node name="Panel" type="PanelContainer" parent="." unique_id=608567581]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxTexture_pjxwu")
+
+[node name="Border" type="MarginContainer" parent="Panel" unique_id=700397127]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="Editor" type="TextEdit" parent="Panel/Border" unique_id=1029287692]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_fonts/font = ExtResource("2_pjxwu")
 theme_override_font_sizes/font_size = 30
-theme_override_styles/normal = SubResource("StyleBoxTexture_pjxwu")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_g4v7s")
 wrap_mode = 1
